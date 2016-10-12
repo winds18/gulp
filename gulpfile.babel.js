@@ -35,6 +35,7 @@ gulp.task('lib',() => {
   return gulp.src('src/scripts/lib/**/*.js')
     .pipe($.order([
       'src/scripts/lib/jquery-3.1.1.js',
+      'src/scripts/lib/velocity.js',
     ]))
     .pipe($.sourcemaps.init())
     .pipe($.concat('lib.js'))
