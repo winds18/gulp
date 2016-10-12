@@ -31,12 +31,21 @@ gulp.task('style',() => {
     .pipe(gulp.dest('pub/css'));
 });
 
-gulp.task('script',() => {
-  return gulp.src('src/scripts/**/*.js')
+gulp.task('lib',() => {
+  return gulp.src('src/scripts/lib/**/*.js')
     .pipe($.order([
-      'src/scripts/lib/*.js',
-      'src/scripts/*.js'
+      'src/scripts/lib/jquery-3.1.1.js',
     ]))
+    .pipe($.sourcemaps.init())
+    .pipe($.concat('lib.js'))
+    .pipe($.rename({suffix: '.min'}))
+    .pipe($.uglify())
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('pub/js'))
+});
+
+gulp.task('script',() => {
+  return gulp.src('src/scripts/*.js')
     .pipe($.sourcemaps.init())
     .pipe($.babel())
     .pipe($.jshint('.jshintrc'))
@@ -67,12 +76,12 @@ gulp.task('clean',() => {
 });
 
 gulp.task('default',['clean'],() => {
-  gulp.start('html','style','script','image','watch','browser-sync');
+  gulp.start('html','style','lib','script','image','watch','browser-sync');
 });
 
 gulp.task('watch',() => {
   gulp.watch('src/styles/**/*.scss',['style']);
-  gulp.watch('src/scripts/**/*.js',['script']);
+  gulp.watch('src/scripts/*.js',['script']);
   gulp.watch('src/images/**/*',['image']);
   gulp.watch('src/*.html',['html']);
 });
