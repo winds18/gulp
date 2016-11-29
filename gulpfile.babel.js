@@ -11,7 +11,7 @@ const $ = gulpLoadPlugins({
 });
 
 gulp.task('browser-sync',() => {
-  var files = ['pub/*.html'];
+  var files = ['pub/*.html','pub/{css,js,images}/*.{css,js,jpg,png,gif}'];
   $.browserSync.create().init(files,{
     server:{
       baseDir:"pub",
